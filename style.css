@@ -1,3 +1,42 @@
-body{
-    background-color: black;
+table {
+    color: brown;
+    background-color: blueviolet;
 }
+
+#tabela1 {
+    color : black;
+    background-color: aquamarine;
+    margin: 20px 40px 20px 10px;
+    padding: 40px;
+    border: 20%;
+    border-style: solid;
+    border-color: black;
+}
+
+.crvene-tabele {
+    color:blue;
+    background-color: rgb(236, 156, 156);
+}
+
+#tabela2 {
+    color : black;
+    background-color: yellow;
+}
+
+#link-okov:hover {
+    color: brown;
+    background-color: red;
+}
+
+tr:nth-child(2){
+    background-color: aqua;
+}
+
+#kombinovanje-cssa {
+    font-size: 40px;
+}
+
+#kombinovanje-cssa tr:nth-child(2n){
+    background-color: green;
+}
+
