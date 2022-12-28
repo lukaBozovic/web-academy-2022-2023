@@ -1,124 +1,67 @@
-//console.log("Hello world");
-//console.error("Error");
-//console.warn("Warn")
-
-let a = 5;
-var b = 10; //global scoped
-const c = 15;
-
-let s1 = "Today is sunny day";
-let s2 = "World";
-let result = `${s1} jckjdbcsdj ${s2}`;
-
-//console.log(s1.split(" ").join(" "));
-//console.log(s1.length)
-
-function sum(a, b){
-    return a + b;
-}
-
-//console.log(sum(5,6));
-
-let arr = [1, "jcdjcnds", false];
-arr.push(17);
-
-let temp1 = 6;
-let temp2 = "6";
-let temp3 = true;
-/*
-if (temp1 === temp2){
-    console.log("Enters if statement");
-}
-else{
-    console.log("Doesnt enter if statement");
-}
-
-if (false)
-    console.log("true");
-else if (7 > 5) {
-    console.log("Enters else if");
-}  
-*/
-/*
-let i = 0;
-while(i < 10){
-    console.log(i);
-    i++;
-}
-*/
-/*
-for (let i = 0; i < 10; i++){
-    console.log(i);
-}
-*/
-
-let obj = {
-    name : "Petar",
-    surname : "Petrovic",
-    arr : [20, 23, 56]
-}
-
-//console.log(`${obj.name} ${obj.surname} age :  ${obj.age}`);
-/*console.log(obj.arr);
-
-for (let i = 0; i < obj.arr.length; i++){
-    console.log(obj.arr[i]);
-}*/
-/*
-let city1 = {
-    name : "Podgorica",
-    population : 250000,
-    settlement: [
-        {name : "Zabjelo"},
-        {name: "Stari aerodrom"}
-      ]
-}
-let city2 = {
-    name : "Niksic",
-    population : 40000,
-    settlement: [
-        {name : "Zupa"},
-        {name: "Centar"}
-    ]
-}
-
-let cities = [city1, city2]
-console.log(cities);
-console.log(cities[0].name + " settlement 2 " + cities[0].settlement[1].name)
-*/
-let city = {
-    name : "Podgorica",
-    population : 250000
-}
-
-
-let array = [5, 6, 7, 8, 9, 10];
-
-let print = function (element, index){
-    console.log("index" + index + " " + element);
-}
-
-let filterFunction = function (element){
-    return element > 6
-}
-
-let filteredArray = array.filter(filterFunction);
-console.log(filteredArray);
-
-let objArray = [
-    {name: "Podgorica", population : 2500000},
-    {name: "Niksic", population : 45000}
+const users = [
+    {
+        username : "luka",
+        password : "1234",
+        fullName : "Luka Petrovic"
+    },
+    {
+        username : "marko",
+        password : "1234",
+        fullName : "Marko Markovic"
+    },
+    {
+        username : "marija",
+        password : "1234",
+        fullName : "Marija Markovic"
+    }
 ];
 
-let mapFunction = function (element){
-    return element.name + " " + element.population ;
+function getUserInput(){
+    let username = document.getElementById("username-input").value;
+    let password = document.getElementById("password-input").value;
+
+    return {
+        username : username,
+        password : password
+    }
 }
-console.log(objArray.map(mapFunction));
+
+function login(){
+    
+    let obj = getUserInput();
+
+    let result = false;
+
+    users.forEach(function(user){
+        if(user.username === obj.username && user.password === obj.password)
+            result = true;
+    })
+
+    let validatedInput = validateInput(obj.username, obj.password);
+    if (validatedInput === false){
+        document.getElementById("username-input").classList.add("is-invalid");
+        document.getElementById("password-input").classList.add("is-invalid");
+        return ;
+    }
 
 
-if (true){
-    let n = 5;
+    let alert = document.getElementById("alert-div");
+    if (result === true){
+        alert.classList.remove("alert-danger")
+        alert.classList.add("alert", "alert-success");
+        alert.innerHTML = "<h3>Dobrodosli!</h3>"
+    }
+    else{
+        alert.classList.remove("alert-success")
+        alert.classList.add("alert", "alert-danger");
+        alert.innerHTML = "<h3>Pogrijesili ste kredencijale.</h3>"
+    }
+        
 }
 
-console.log(n)
+function validateInput(username, password){
+    if (username === "" || password === "")
+        return false;
+    return true;    
+}
 
