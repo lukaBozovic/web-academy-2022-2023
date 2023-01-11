@@ -48,8 +48,11 @@ function login(){
     let alert = document.getElementById("alert-div");
     if (result === true){
         alert.classList.remove("alert-danger")
+        /*
         alert.classList.add("alert", "alert-success");
         alert.innerHTML = "<h3>Dobrodosli!</h3>"
+        */
+       window.location.href = './cities.html';
     }
     else{
         alert.classList.remove("alert-success")
