@@ -1,99 +1,106 @@
 const questions = [
     {
-        text : "Koji od navedenih odgovora predstavlja ime programskog jezika?",
-        answers : {
-            a : "HTML",
-            b : "JS",
-            c : "CSS"
-        },
-        correctAnswer : "b"
+      topic: "Pogodite grad u Crnoj Gori",
+      words: [
+        "podgorica",
+        "budva",
+        "bar",
+        "kolašin",
+        "danilovgrad",
+        "tivat",
+        "kotor"
+      ]
     },
     {
-        text : "Izbaci uljeza: ",
-        answers : {
-            a : "Laravel",
-            b : "Spring Boot",
-            c : "React"
-        },
-        correctAnswer : "c"
-    },
-    {
-        text : "Koji je glavni grad Crne Gore?",
-        answers : {
-            a : "Cetinje",
-            b : "Budva",
-            c : "Podgorica"
-        },
-        correctAnswer : "c"
+      topic: "Pogodite programski jezik",
+      words:[
+        "javascript",
+        "php",
+        "cpp",
+        "csharp",
+        "kotlin"
+      ]
     }
-]
+  ];
+  const letters = ['a','b','c','č','ć','d','dž','đ','e','f','g','h','i','j','k','l','lj','m','n','nj','o','p','r','s','š','t','u','v','z','ž'];
 
-var contentDiv = document.getElementById('contentDiv');
-var accordionDiv = document.getElementById('accordion');
-var resultDiv = document.getElementById('result');
-var tryAgain = document.getElementById('tryAgain');
+  var topic = document.getElementById('topic');
+  var hiddenWordDiv = document.getElementById('hiddenWord');
+  var img = document.getElementById('img');
+  var keyboard = document.getElementById('keyboard');
+  var mistakesNumber = document.getElementById('mistakesNumber');
 
-function start(){
-    let questionsHtml = [];
 
-    questions.forEach((question, index) => {
+  var numberOfMistakes = 0;
 
-        let answersHtml = [];
+  function displayKeyboard(){
+    let buttonsHtml = [];
+    letters.forEach((letter) => {
+      buttonsHtml.push(`<button id="button_${letter}"
+       class="btn btn-primary m-2">${letter}</button>`);
+    })
+    keyboard.innerHTML = buttonsHtml.join("");
 
-        for(let letter in question.answers){
-            let answerHtml = `<div>
-                                <label>
-                                        <input type="radio" name="question${index}" value="${letter}"> ${letter} : ${question.answers[letter]}
-                                </label>
-                              </div>
-            `;
-            answersHtml.push(answerHtml);
+    letters.forEach((letter) => {
+      document.getElementById("button_" + letter).addEventListener('click', (e) => {pickLetter(letter)});
+    });
+  }
+
+  var randomQuestion = undefined;
+  var randomWord = undefined;
+  var hiddenWord = undefined;
+  var hiddenWordDisplay = undefined;
+  function displayContent(){
+      randomQuestion = generateRandomElement(questions);
+      randomWord = generateRandomElement(randomQuestion.words);
+      topic.innerHTML = `<h3>${randomQuestion.topic}</h3>`;
+
+      hiddenWord = '';
+      hiddenWordDisplay = '';
+      for (let i = 0; i < randomWord.length; i++){
+        hiddenWord += '_';
+        hiddenWordDisplay += '_ '
+      }
+      hiddenWordDiv.innerHTML = `<h3>${hiddenWordDisplay}</h3>`;
+  }
+
+  function generateRandomElement(array){
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  function replaceChar(index, str, replacement){
+    return str.substring(0, index) + replacement + str.substring(index + replacement.length);
+  }
+
+  function pickLetter(letter){
+    if (randomWord.includes(letter)){
+
+        for(let i = 0; i < randomWord.length; i++){
+          if (randomWord[i] == letter){
+            hiddenWord = replaceChar(i, hiddenWord, letter);
+          }
         }
-        questionsHtml.push(`<div class="accordion-item">
-                                 <h2 class="accordion-header" id="flush-heading${index}">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${index}" aria-expanded="false" aria-controls="flush-collapseOne">
-                                        ${question.text}
-                                    </button>
-                                 </h2>
-                                 
-                                <div id="flush-collapse${index}" class="accordion-collapse collapse" aria-labelledby="flush-heading${index}" data-bs-parent="#accordion">
-                                     <div class="accordion-body">
-                                     ${answersHtml.join("")}
-                                     </div>
-                                </div>
-                             </div>
-                
-                              
-                                
-                        `)
-    })
-    accordionDiv.innerHTML = questionsHtml.join("");
-}
+
+        let hiddenWordDisplayTemp = "";
+        for(let i = 0; i < hiddenWord.length; i++){
+          hiddenWordDisplayTemp += hiddenWord[i] + " ";
+        }
+        hiddenWordDisplay = hiddenWordDisplayTemp;
+        hiddenWordDiv.innerHTML = `<h3>${hiddenWordDisplay}</h3>`
+    }
+    else{
+      numberOfMistakes++;
+      img.innerHTML = `<img src="./img/${numberOfMistakes}.png" alt="">`
+      document.getElementById("button_" + letter).setAttribute('disabled', '');
+      mistakesNumber.innerHTML = "Broj pokusaja " + numberOfMistakes + " od 6"
+      if (numberOfMistakes == 6){
+        console.log("Zavrsena igra");
+      }
+    }
+  }
+ 
+  displayKeyboard();
+  displayContent();
 
 
-function finish(){
-    let points = 0;
-    questions.forEach((question, index) => {
-        let selector = `input[name=question${index}]:checked`;
-        let playerAnswer = document.querySelector(selector)?.value
-
-        if (playerAnswer === question.correctAnswer)
-            points++;
-    })
-    var resultClass = '';
-    if (points === 3)
-        resultClass = 'alert-success';
-    else if(points === 2)
-        resultClass = 'alert-warning';
-    else 
-        resultClass = 'alert-danger';
-
-    resultDiv.innerHTML = `Osvojili ste: ${points} poena`;
-    resultDiv.classList.add(resultClass);
-    tryAgain.classList.remove('d-none');
-}
-
-function tryAgain(){
-    window.location.reload();
-}
-start();
+   
