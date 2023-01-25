@@ -1,106 +1,53 @@
-const questions = [
-    {
-      topic: "Pogodite grad u Crnoj Gori",
-      words: [
-        "podgorica",
-        "budva",
-        "bar",
-        "kolašin",
-        "danilovgrad",
-        "tivat",
-        "kotor"
-      ]
-    },
-    {
-      topic: "Pogodite programski jezik",
-      words:[
-        "javascript",
-        "php",
-        "cpp",
-        "csharp",
-        "kotlin"
-      ]
-    }
-  ];
-  const letters = ['a','b','c','č','ć','d','dž','đ','e','f','g','h','i','j','k','l','lj','m','n','nj','o','p','r','s','š','t','u','v','z','ž'];
+const apiUrl = 'https://reqres.in/api/users';
+var users = undefined;
+var singleUser = undefined;
 
-  var topic = document.getElementById('topic');
-  var hiddenWordDiv = document.getElementById('hiddenWord');
-  var img = document.getElementById('img');
-  var keyboard = document.getElementById('keyboard');
-  var mistakesNumber = document.getElementById('mistakesNumber');
+var tableBody = document.getElementById('tableBody');
+var singleUserDiv = document.getElementById('singleUserDiv');
 
-
-  var numberOfMistakes = 0;
-
-  function displayKeyboard(){
-    let buttonsHtml = [];
-    letters.forEach((letter) => {
-      buttonsHtml.push(`<button id="button_${letter}"
-       class="btn btn-primary m-2">${letter}</button>`);
-    })
-    keyboard.innerHTML = buttonsHtml.join("");
-
-    letters.forEach((letter) => {
-      document.getElementById("button_" + letter).addEventListener('click', (e) => {pickLetter(letter)});
+function displayData(){
+    let bodyHtml = [];
+    users.forEach(user => {
+        bodyHtml.push(`
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.first_name}</td>
+                            <td>${user.last_name}</td>
+                            <td>${user.email}</td>
+                            <td><button class="btn btn-success" onclick="showSingleUser(${user.id})">Show</button></td>
+                        </tr>
+                    `);
     });
-  }
+    tableBody.innerHTML = bodyHtml.join('');
+}
 
-  var randomQuestion = undefined;
-  var randomWord = undefined;
-  var hiddenWord = undefined;
-  var hiddenWordDisplay = undefined;
-  function displayContent(){
-      randomQuestion = generateRandomElement(questions);
-      randomWord = generateRandomElement(randomQuestion.words);
-      topic.innerHTML = `<h3>${randomQuestion.topic}</h3>`;
+function fetchData(pageNumber = 1){
+    fetch(apiUrl + "?page=" + pageNumber).then((response) => {
+        return response.json();
+    }).then((result) => {
+        users = result.data;
+        console.log(users);
+        displayData();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
-      hiddenWord = '';
-      hiddenWordDisplay = '';
-      for (let i = 0; i < randomWord.length; i++){
-        hiddenWord += '_';
-        hiddenWordDisplay += '_ '
-      }
-      hiddenWordDiv.innerHTML = `<h3>${hiddenWordDisplay}</h3>`;
-  }
+function showSingleUser(userId){
+    fetch(apiUrl + "/" + userId).then((response) => {
+        return response.json();
+    }).then((result) => {
+        //Pozeljno napraviti funkciju
+        singleUser = result.data;
+        singleUserDiv.innerHTML = `
+                                    <h3>${singleUser.first_name}<h3>
+                                    <h3>${singleUser.last_name}<h3>
+                                    <img src="${singleUser.avatar}">
+                                    `
 
-  function generateRandomElement(array){
-    return array[Math.floor(Math.random() * array.length)];
-  }
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
-  function replaceChar(index, str, replacement){
-    return str.substring(0, index) + replacement + str.substring(index + replacement.length);
-  }
-
-  function pickLetter(letter){
-    if (randomWord.includes(letter)){
-
-        for(let i = 0; i < randomWord.length; i++){
-          if (randomWord[i] == letter){
-            hiddenWord = replaceChar(i, hiddenWord, letter);
-          }
-        }
-
-        let hiddenWordDisplayTemp = "";
-        for(let i = 0; i < hiddenWord.length; i++){
-          hiddenWordDisplayTemp += hiddenWord[i] + " ";
-        }
-        hiddenWordDisplay = hiddenWordDisplayTemp;
-        hiddenWordDiv.innerHTML = `<h3>${hiddenWordDisplay}</h3>`
-    }
-    else{
-      numberOfMistakes++;
-      img.innerHTML = `<img src="./img/${numberOfMistakes}.png" alt="">`
-      document.getElementById("button_" + letter).setAttribute('disabled', '');
-      mistakesNumber.innerHTML = "Broj pokusaja " + numberOfMistakes + " od 6"
-      if (numberOfMistakes == 6){
-        console.log("Zavrsena igra");
-      }
-    }
-  }
- 
-  displayKeyboard();
-  displayContent();
-
-
-   
+fetchData()
