@@ -21,8 +21,9 @@ function displayData(){
     tableBody.innerHTML = bodyHtml.join('');
 }
 
-function fetchData(pageNumber = 1){
-    fetch(apiUrl + "?page=" + pageNumber).then((response) => {
+async function fetchData(pageNumber = 1){
+     //Ovo nekad moze biti necitiljiva sintaksa
+    /*fetch(apiUrl + "?page=" + pageNumber).then((response) => {
         return response.json();
     }).then((result) => {
         users = result.data;
@@ -30,7 +31,12 @@ function fetchData(pageNumber = 1){
         displayData();
     }).catch((error) => {
         console.log(error);
-    });
+    });*/
+
+    let response = await fetch(apiUrl + "?page=" + pageNumber);
+    let responseJson = await response.json();
+    users = await responseJson.data;
+    displayData();
 }
 
 function showSingleUser(userId){
