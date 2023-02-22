@@ -1,0 +1,17 @@
+Zadatak: Modeliranje baze podataka za online trgovinu knjiga
+
+Opis situacije: Kompanija X želi da kreira online trgovinu knjiga u kojoj će korisnici moći da
+kupuju knjige putem interneta.
+Kompanija želi da pohrani informacije o knjigama, njihovim autorima, izdavačima, kategorijama i cijenama.
+Kompanija također želi da pohrani informacije o korisnicima, kao što su njihovo ime i prezime,
+e-mail adresa, adresa za dostavu i informacije o njihovim kupovinama.
+
+Zahtjevi:
+
+-Baza podataka mora da pohranjuje informacije o knjigama, autorima, izdavačima, kategorijama i cijenama.
+-Baza podataka mora da pohranjuje informacije o korisnicima, kao što su njihovo ime i prezime,
+ e-mail adresa, adresa za dostavu i informacije o njihovim kupovinama.
+-Baza podataka mora da omogućava praćenje svake kupovine korisnika i knjiga koje su kupljene.
+-Baza podataka mora da omogućava brzo i efikasno pretraživanje knjiga po autoru, izdavaču, kategoriji i cijeni.
+
+Zadatak je da na osnovu ovog opisa situacije kreirate ER dijagram za bazu podataka za online trgovinu knjiga.

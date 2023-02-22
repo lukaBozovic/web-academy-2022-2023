@@ -1,0 +1,18 @@
+Zadatak: Modeliranje baze podataka za fitness centar
+
+Opis situacije: Kompanija Y želi da kreira sistem za upravljanje fitness centrom.
+Fitness centar ima više trenera, opremu i prostorija. Kompanija želi da pohrani informacije o trenerima,
+njihovim sertifikatima, opremi, prostorijama i vremenskom rasporedu treniranja.
+Kompanija također želi da pohrani informacije o članovima, kao što su njihovo ime i prezime, datum rođenja,
+informacije o članarini i informacije o treninzima koje su pohađali.
+
+Zahtjevi:
+
+-Baza podataka mora da pohranjuje informacije o trenerima, njihovim certifikatima, opremi,
+prostorijama i vremenskom rasporedu treniranja.
+-Baza podataka mora da pohranjuje informacije o članovima, kao što su njihovo ime i prezime, datum rođenja,
+informacije o članarini i informacije o treninzima koje su pohađali.
+-Baza podataka mora da omogućava praćenje svakog treniranja člana i trenera koji je vodio trening.
+-Baza podataka mora da omogućava brzo i efikasno pretraživanje trenera po certifikatima,
+opremi i vremenskom rasporedu.
+Zadatak je da na osnovu ovog opisa situacije kreirate ER dijagram za bazu podataka za fitness centar.
